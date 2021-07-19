@@ -17,22 +17,18 @@ export class DigitalClockService {
     this.validAmPmFormats,
   ];
 
-  date = new Observable<Date>((observer: Observer<Date>) => {
-    setInterval(() => {
-      observer.next(new Date());
-    }, 1000);
-  });
+  defaultDisplayFormat = 'HH:mm:ss:tt';
+  defaultFormat = 'HH:mm:ss:a';
+  format = this.defaultFormat;
 
-  // defaultFormatter = 'HH:mm:ss:tt';
-  formatter = 'HH:mm:ss:a';
   constructor() {}
 
   getFormat(): Observable<string> {
-    return of(this.formatter);
+    return of(this.format);
   }
 
-  getDate(): Observable<Date> {
-    return this.date;
+  getDefaultDisplayFormat() {
+    return this.defaultDisplayFormat;
   }
   // validateFormatInput(format: string): boolean {
   //   const [hours, minutes, seconds, ampm] = format.split(':');

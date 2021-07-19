@@ -7,11 +7,12 @@ import { DigitalClockService } from '../digital-clock.service';
   styleUrls: ['./digital-clock-formatter.component.css'],
 })
 export class DigitalClockFormatterComponent implements OnInit {
-  defaultFormatter: string = 'HH:mm:ss';
-  @Input() formatter?: string = this.defaultFormatter;
+  @Input() displayFormat?: string;
   constructor(private digitalClockService: DigitalClockService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.displayFormat = this.digitalClockService.getDefaultDisplayFormat();
+  }
 
   validateFormatter(event: any) {
     console.log(event);

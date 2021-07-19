@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { Observer } from 'rxjs/internal/types';
+import { Subscription, timer } from 'rxjs';
 import { DigitalClockService } from '../digital-clock.service';
 
 @Component({
@@ -13,13 +12,15 @@ export class DigitalClockComponent implements OnInit {
   format?: string;
   // to clear Observable subscription
   subscription!: Subscription;
-  date!: Observable<Date>;
+  date!: Date;
 
   constructor(private digitalClockService: DigitalClockService) {}
 
   ngOnInit(): void {
     this.getActiveFormat();
-    this.date = this.digitalClockService.getDate();
+    timer(0, 1000).subscribe(() => {
+      this.date = new Date();
+    });
   }
 
   ngOnDestroy(): void {
