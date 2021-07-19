@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Observer } from 'rxjs/internal/types';
 import { DigitalClockService } from '../digital-clock.service';
 
@@ -11,6 +11,8 @@ import { DigitalClockService } from '../digital-clock.service';
 export class DigitalClockComponent implements OnInit {
   // Also wanted to directly pipe format, but not how to pipe argument
   format?: string;
+  // to clear Observable subscription
+  subscription!: Subscription;
   time = new Observable<Date>((observer: Observer<Date>) => {
     setInterval(() => {
       observer.next(new Date());
@@ -23,9 +25,17 @@ export class DigitalClockComponent implements OnInit {
     this.getActiveFormat();
   }
 
+  ngOnDestroy(): void {
+    // Not sure if this needs to be done in newest Angular version. Looks like a big topic.
+    // time should be unsubscribed by pipe
+    this.subscription.unsubscribe();
+  }
+
   getActiveFormat(): void {
-    this.digitalClockService.getFormat().subscribe((format) => {
-      this.format = format;
-    });
+    this.subscription = this.digitalClockService
+      .getFormat()
+      .subscribe((format) => {
+        this.format = format;
+      });
   }
 }
