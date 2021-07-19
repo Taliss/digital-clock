@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DigitalClockService } from '../digital-clock.service';
 
 @Component({
   selector: 'app-digital-clock-formatter',
@@ -6,9 +7,13 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./digital-clock-formatter.component.css'],
 })
 export class DigitalClockFormatterComponent implements OnInit {
-  defaultFormatter: string = 'HH-mm-ss';
+  defaultFormatter: string = 'HH:mm:ss';
   @Input() formatter?: string = this.defaultFormatter;
-  constructor() {}
+  constructor(private digitalClockService: DigitalClockService) {}
 
   ngOnInit(): void {}
+
+  validateFormatter(event: any) {
+    console.log(event);
+  }
 }

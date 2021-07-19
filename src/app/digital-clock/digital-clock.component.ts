@@ -9,14 +9,23 @@ import { DigitalClockService } from '../digital-clock.service';
   styleUrls: ['./digital-clock.component.css'],
 })
 export class DigitalClockComponent implements OnInit {
-  formatter = 'HH:mm:ss:a';
+  // Also wanted to directly pipe format, but not how to pipe argument
+  format?: string;
   time = new Observable<Date>((observer: Observer<Date>) => {
     setInterval(() => {
       observer.next(new Date());
     }, 1000);
   });
 
-  constructor() {}
+  constructor(private digitalClockService: DigitalClockService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getActiveFormat();
+  }
+
+  getActiveFormat(): void {
+    this.digitalClockService.getFormat().subscribe((format) => {
+      this.format = format;
+    });
+  }
 }

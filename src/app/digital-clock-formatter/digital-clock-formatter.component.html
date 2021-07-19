@@ -3,5 +3,6 @@
   type="text"
   id="formatter"
   [(ngModel)]="formatter"
+  (ngModelChange)="validateFormatter($event)"
   placeholder="H/HH/h/hh-m/mm-s/ss-tt?"
 />
