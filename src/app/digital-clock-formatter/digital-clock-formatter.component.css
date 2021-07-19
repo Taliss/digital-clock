@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
+input[type="text"] {
+  height: 30px;
+  background-color: blanchedalmond;
+  color: rgb(82, 19, 19);
+  font-family: Cambria, Georgia, serif;
+  border: 1px solid rgb(46, 1, 1);
+  border-radius: 4px;
+  box-sizing: border-box;
+  text-align: center;
+  font-weight: 400;
+  font-size: medium;
+}
