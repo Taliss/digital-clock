@@ -13,16 +13,13 @@ export class DigitalClockComponent implements OnInit {
   format?: string;
   // to clear Observable subscription
   subscription!: Subscription;
-  time = new Observable<Date>((observer: Observer<Date>) => {
-    setInterval(() => {
-      observer.next(new Date());
-    }, 1000);
-  });
+  date!: Observable<Date>;
 
   constructor(private digitalClockService: DigitalClockService) {}
 
   ngOnInit(): void {
     this.getActiveFormat();
+    this.date = this.digitalClockService.getDate();
   }
 
   ngOnDestroy(): void {

@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { observable, Observable, Observer, of } from 'rxjs';
 
 @Injectable({
@@ -17,6 +17,12 @@ export class DigitalClockService {
     this.validAmPmFormats,
   ];
 
+  date = new Observable<Date>((observer: Observer<Date>) => {
+    setInterval(() => {
+      observer.next(new Date());
+    }, 1000);
+  });
+
   // defaultFormatter = 'HH:mm:ss:tt';
   formatter = 'HH:mm:ss:a';
   constructor() {}
@@ -25,6 +31,9 @@ export class DigitalClockService {
     return of(this.formatter);
   }
 
+  getDate(): Observable<Date> {
+    return this.date;
+  }
   // validateFormatInput(format: string): boolean {
   //   const [hours, minutes, seconds, ampm] = format.split(':');
 
