@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Observer } from 'rxjs/internal/types';
+import { DigitalClockService } from '../digital-clock.service';
 
 @Component({
   selector: 'app-digital-clock',
@@ -6,21 +9,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./digital-clock.component.css'],
 })
 export class DigitalClockComponent implements OnInit {
-  private initDate: Date = new Date();
-  public hours?: number;
-  public minutes?: number;
-  public seconds?: number;
-  public ampm: string | null = null;
+  time = new Observable<any>((observer: Observer<any>) => {
+    setInterval(() => {
+      observer.next(new Date().toString());
+    }, 1000);
+  });
 
   constructor() {}
 
-  ngOnInit(): void {
-    setInterval(() => this.renewDate(new Date()), 1000);
-  }
-
-  private renewDate(date: Date) {
-    this.hours = date.getHours();
-    this.minutes = date.getMinutes();
-    this.seconds = date.getSeconds();
-  }
+  ngOnInit(): void {}
 }
