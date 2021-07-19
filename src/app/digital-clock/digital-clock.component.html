@@ -1,11 +1,1 @@
-<div class="digitalCLock">
-  <div class="clock">
-    <!-- <div>{{ time | async }}</div> -->
-    <!-- <div>1</div> -->
-    <!-- <div>1</div> -->
-    <!-- <div class="ampm"> -->
-    <!-- <div>am</div> -->
-    <!-- <div>pm</div> -->
-    <!-- </div> -->
-  </div>
-</div>
+<div class="clock">{{ time | async | date: formatter }}</div>

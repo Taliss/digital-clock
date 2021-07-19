@@ -9,9 +9,12 @@ import { DigitalClockService } from '../digital-clock.service';
   styleUrls: ['./digital-clock.component.css'],
 })
 export class DigitalClockComponent implements OnInit {
-  time = new Observable<any>((observer: Observer<any>) => {
+  formatter = 'HH:mm:ss:a';
+  time = new Observable<Date>((observer: Observer<Date>) => {
     setInterval(() => {
-      observer.next(new Date().toString());
+      const now = new Date();
+      now.setHours(now.getHours() - 10);
+      observer.next(now);
     }, 1000);
   });
 
