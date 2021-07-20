@@ -9,7 +9,7 @@ import { DigitalClockService } from '../digital-clock.service';
 })
 export class DigitalClockComponent implements OnInit {
   format!: string;
-  // to clear Observable subscription
+  // to clear Observable/BehaviorSubject subscription
   subscription!: Subscription;
   date!: Date;
 

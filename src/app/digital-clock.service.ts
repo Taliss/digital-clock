@@ -5,16 +5,11 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class DigitalClockService {
-  validHoursFormats = ['h', 'hh', 'H', 'HH'];
-  validMinutesFormats = ['m', 'mm'];
-  validSecondsFormats = ['s', 'ss'];
-  validAmPmFormats = ['tt'];
-
-  formatValidations = [
-    this.validHoursFormats,
-    this.validMinutesFormats,
-    this.validSecondsFormats,
-    this.validAmPmFormats,
+  private formatValidations = [
+    ['h', 'hh', 'H', 'HH'],
+    ['m', 'mm'],
+    ['s', 'ss'],
+    ['tt'],
   ];
 
   // tt === a, will need to map it, thats why there are 2 input formats
@@ -22,6 +17,34 @@ export class DigitalClockService {
   formatBehavior = new BehaviorSubject('HH:mm:ss:a');
 
   constructor() {}
+
+  private pickValidFormattersFromInput(formatFromInput: string) {
+    return formatFromInput
+      .split(':')
+      .slice(0, 4)
+      .map((format) => format.trim())
+      .reduce(
+        (acc, curr, index) => {
+          const formatIsValid = this.formatValidations[index].includes(curr);
+
+          if (formatIsValid && !acc.invalidFormatWasFound) {
+            acc.validFormatsToBeApplied.push(curr);
+          } else {
+            acc.invalidFormatWasFound = true;
+          }
+
+          return acc;
+        },
+        {
+          invalidFormatWasFound: false as boolean,
+          validFormatsToBeApplied: [] as string[],
+        }
+      );
+  }
+
+  private mapAmPmValue(formattersToBeApplied: string): string {
+    return formattersToBeApplied.replace('tt', 'a');
+  }
 
   getFormat(): BehaviorSubject<string> {
     return this.formatBehavior;
@@ -31,16 +54,13 @@ export class DigitalClockService {
     return this.defaultDisplayFormat;
   }
 
-  applyFormatChanges(event: string) {
-    this.formatBehavior.next(event);
-  }
-  // validateFormatInput(format: string): boolean {
-  //   const [hours, minutes, seconds, ampm] = format.split(':');
+  applyFormatChanges(event: string): void {
+    const newFormatters =
+      this.pickValidFormattersFromInput(event).validFormatsToBeApplied;
 
-  //   if (!hours) {
-  //     return false;
-  //   } else {
-  //     return;
-  //   }
-  // }
+    if (newFormatters.length) {
+      const formatters = this.mapAmPmValue(newFormatters.join(':'));
+      this.formatBehavior.next(formatters);
+    }
+  }
 }
