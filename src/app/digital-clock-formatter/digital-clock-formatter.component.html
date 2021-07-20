@@ -2,7 +2,7 @@
 <input
   type="text"
   id="formatter"
-  [(ngModel)]="displayFormat"
-  (ngModelChange)="validateFormatter($event)"
   placeholder="H/HH/h/hh:m/mm:s/ss:tt"
+  [(ngModel)]="displayFormat"
+  (ngModelChange)="onFormatChange($event)"
 />

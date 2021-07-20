@@ -14,7 +14,7 @@ export class DigitalClockFormatterComponent implements OnInit {
     this.displayFormat = this.digitalClockService.getDefaultDisplayFormat();
   }
 
-  validateFormatter(event: any) {
-    console.log(event);
+  onFormatChange(event: string) {
+    this.digitalClockService.applyFormatChanges(event);
   }
 }

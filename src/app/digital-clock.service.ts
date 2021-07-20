@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { observable, Observable, Observer, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -17,18 +17,22 @@ export class DigitalClockService {
     this.validAmPmFormats,
   ];
 
+  // tt === a, will need to map it, thats why there are 2 input formats
   defaultDisplayFormat = 'HH:mm:ss:tt';
-  defaultFormat = 'HH:mm:ss:a';
-  format = this.defaultFormat;
+  formatBehavior = new BehaviorSubject('HH:mm:ss:a');
 
   constructor() {}
 
-  getFormat(): Observable<string> {
-    return of(this.format);
+  getFormat(): BehaviorSubject<string> {
+    return this.formatBehavior;
   }
 
-  getDefaultDisplayFormat() {
+  getDefaultDisplayFormat(): string {
     return this.defaultDisplayFormat;
+  }
+
+  applyFormatChanges(event: string) {
+    this.formatBehavior.next(event);
   }
   // validateFormatInput(format: string): boolean {
   //   const [hours, minutes, seconds, ampm] = format.split(':');
