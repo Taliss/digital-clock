@@ -6,6 +6,7 @@ import { DigitalClockService } from '../digital-clock.service';
   selector: 'app-digital-clock',
   templateUrl: './digital-clock.component.html',
   styleUrls: ['./digital-clock.component.css'],
+  providers: [DigitalClockService],
 })
 export class DigitalClockComponent implements OnInit {
   format!: string;
